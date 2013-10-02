@@ -151,7 +151,13 @@ limitations under the License.
         
         this.init();
     }
-    
+   
+    // returns ie version or false for non-ie
+    function isIE () {
+        var myNav = navigator.userAgent.toLowerCase();
+        return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+    }
+
     AccessibleMegaMenu.prototype = (function () {
 
         /* private attributes and methods ------------------------ */
@@ -173,6 +179,12 @@ limitations under the License.
             _mouseOutHandler,
             _toggleExpandedEventHandlers;
         
+        if ( isIE () ) {
+            var isTouch = Object.prototype.hasOwnProperty.call(window,name);
+        } else {
+            var isTouch = window.hasOwnProperty("ontouchstart");
+        }
+
         /**
          * @name jQuery.fn.accessibleMegaMenu~_getPlugin
          * @desc Returns the parent accessibleMegaMenu instance for a given element
